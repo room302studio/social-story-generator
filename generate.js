@@ -10,6 +10,7 @@ const nlp = require('compromise');
 const ENABLE_CONSTELLATIONS = true;
 const ENABLE_GLITCH_EFFECTS = true;
 const ENABLE_CRYPTO_PUZZLE = true;
+const EXPORT_SVG_FOR_AE = process.argv.includes('--ae'); // Add --ae flag for After Effects export
 
 // 🔐 CRYPTO PUZZLE STATE
 let cryptoChainHash = '302'; // Starting seed
@@ -63,27 +64,28 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
   const connectionThreshold = (charCount % 25) + 15; // 15-40px max connection distance
   const brightness = ((charCount % 50) + 30) / 255; // 0.12-0.31 opacity
   
-  // Generate stars across ENTIRE card with bottom preference
+  // Generate stars with golden ratio positioning and baseline grid
   const stars = [];
-  const margin = 4; // Smaller margin for more coverage
-  const cardStart = 0; // Start from very top
-  const cardHeight = templateBounds.height; // Full height
+  const margin = 4;
+  const cardStart = 0;
+  const cardHeight = templateBounds.height;
   
-  // 🏷️ Logo-influenced stars (15% chance to trace logo shapes)
-  const logoInfluence = seededRandom() < 0.15;
-  const logoPoints = logoInfluence ? [
-    // Rough key points from the "302" logo shapes, scaled to template
-    { x: templateBounds.width * 0.2, y: templateBounds.height * 0.15 }, // "3" top curve
-    { x: templateBounds.width * 0.25, y: templateBounds.height * 0.25 }, // "3" middle  
-    { x: templateBounds.width * 0.2, y: templateBounds.height * 0.35 },  // "3" bottom curve
-    { x: templateBounds.width * 0.45, y: templateBounds.height * 0.15 }, // "0" top
-    { x: templateBounds.width * 0.4, y: templateBounds.height * 0.25 },  // "0" left
-    { x: templateBounds.width * 0.5, y: templateBounds.height * 0.25 },  // "0" right
-    { x: templateBounds.width * 0.45, y: templateBounds.height * 0.35 }, // "0" bottom
-    { x: templateBounds.width * 0.7, y: templateBounds.height * 0.15 },  // "2" top
-    { x: templateBounds.width * 0.75, y: templateBounds.height * 0.25 }, // "2" middle
-    { x: templateBounds.width * 0.65, y: templateBounds.height * 0.35 }  // "2" bottom
-  ] : [];
+  // Golden ratio and baseline grid constants
+  const phi = 1.618034; // Golden ratio
+  const baselineGrid = 6; // 6px baseline grid (matches typography)
+  
+  // Golden ratio anchor points for sophisticated positioning
+  const goldenPoints = [
+    { x: templateBounds.width / phi, y: templateBounds.height / phi }, // Primary golden point
+    { x: templateBounds.width * (1 - 1/phi), y: templateBounds.height / phi }, // Secondary
+    { x: templateBounds.width / phi, y: templateBounds.height * (1 - 1/phi) }, // Tertiary
+    { x: templateBounds.width * (1 - 1/phi), y: templateBounds.height * (1 - 1/phi) }, // Quaternary
+    { x: templateBounds.width * 0.5, y: templateBounds.height / phi }, // Central vertical golden
+    { x: templateBounds.width / phi, y: templateBounds.height * 0.5 }, // Central horizontal golden
+  ];
+  
+  // Logo-influenced stars use golden ratio positioning
+  const logoInfluence = seededRandom() < 0.2; // Increased chance for golden positioning
 
   // 🔐 CRYPTO STEGANOGRAPHY - Encode quote's key word in star coordinates
   let cryptoStars = [];
@@ -117,16 +119,19 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
       continue;
     }
     
-    // Use logo points for some stars if enabled (40% chance per star)
-    if (logoInfluence && i < logoPoints.length && seededRandom() < 0.4) {
-      const point = logoPoints[i];
-      x = point.x + (seededRandom() - 0.5) * 6; // Add slight variation
-      y = point.y + (seededRandom() - 0.5) * 6;
+    // Golden ratio positioning with baseline grid alignment
+    if (logoInfluence && i < goldenPoints.length && seededRandom() < 0.4) {
+      const point = goldenPoints[i];
+      x = point.x + (seededRandom() - 0.5) * baselineGrid; // Snap to baseline grid
+      y = point.y + (seededRandom() - 0.5) * baselineGrid;
+      // Align to baseline grid
+      x = Math.round(x / baselineGrid) * baselineGrid;
+      y = Math.round(y / baselineGrid) * baselineGrid;
       // Keep within bounds
       x = Math.max(margin, Math.min(templateBounds.width - margin, x));
       y = Math.max(cardStart, Math.min(cardStart + cardHeight, y));
     } else {
-      // Random placement with bottom preference
+      // Random placement with bottom preference and baseline alignment
       x = margin + seededRandom() * (templateBounds.width - margin * 2);
       
       // Bias toward bottom 60% of card
@@ -136,6 +141,10 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
       } else { // 30% chance for top area
         y = cardStart + ((yRandom - 0.7) / 0.3) * (templateBounds.height * 0.4);
       }
+      
+      // Snap to baseline grid for mathematical precision
+      x = Math.round(x / baselineGrid) * baselineGrid;
+      y = Math.round(y / baselineGrid) * baselineGrid;
     }
     
     stars.push({
@@ -173,64 +182,92 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
   
   // Varied connection styles based on quote characteristics
   const connectionStyle = seed % 4;
-  const strokeWidth = 0.1 + (charCount % 6) * 0.05; // 0.1-0.35px variety
+  const strokeWidth = 0.2; // Keep it light and consistent
   const connectionOpacity = 0.2 + (wordCount % 8) * 0.05; // 0.2-0.55 variety
   
-  // Generate SVG elements with dynamic transform
-  let svg = `\n  <!-- Dynamic Procedural Constellation -->\n  <g class="constellation" opacity="${brightness}" transform="scale(${perspective}) rotate(${rotation}) skewX(${skewX}) skewY(${skewY})">`;
+  // Generate SVG elements with After Effects grouping or standard transform
+  let svg = EXPORT_SVG_FOR_AE 
+    ? `\n  <!-- AE Constellation Group -->\n  <g id="constellation-group" class="constellation" opacity="${brightness}">`
+    : `\n  <!-- Dynamic Procedural Constellation -->\n  <g class="constellation" opacity="${brightness}" transform="scale(${perspective}) rotate(${rotation}) skewX(${skewX}) skewY(${skewY})">`;
   
-  // Add connections with varied styles
+  // Add connections with After Effects grouping
+  if (EXPORT_SVG_FOR_AE) {
+    svg += `\n    <g id="constellation-lines">`;
+  }
+  
   connections.forEach((conn, index) => {
     let strokeStyle = `stroke="rgba(255,255,255,${connectionOpacity})" stroke-width="${strokeWidth}"`;
     
-    // Varied connection styles
-    switch(connectionStyle) {
-      case 0: // Solid lines (default)
-        break;
-      case 1: // Dashed lines
-        strokeStyle += ` stroke-dasharray="${strokeWidth * 8},${strokeWidth * 4}"`;
-        break;
-      case 2: // Dotted lines
-        strokeStyle += ` stroke-dasharray="${strokeWidth * 2},${strokeWidth * 3}"`;
-        break;
-      case 3: // Mixed pattern - alternate every 3rd line
-        if (index % 3 === 0) strokeStyle += ` stroke-dasharray="${strokeWidth * 6},${strokeWidth * 2}"`;
-        break;
+    // Varied connection styles (simplified for AE)
+    if (!EXPORT_SVG_FOR_AE) {
+      switch(connectionStyle) {
+        case 0: // Solid lines (default)
+          break;
+        case 1: // Dashed lines
+          strokeStyle += ` stroke-dasharray="${strokeWidth * 8},${strokeWidth * 4}"`;
+          break;
+        case 2: // Dotted lines
+          strokeStyle += ` stroke-dasharray="${strokeWidth * 2},${strokeWidth * 3}"`;
+          break;
+        case 3: // Mixed pattern - alternate every 3rd line
+          if (index % 3 === 0) strokeStyle += ` stroke-dasharray="${strokeWidth * 6},${strokeWidth * 2}"`;
+          break;
+      }
     }
     
-    svg += `\n    <line x1="${conn.x1.toFixed(2)}" y1="${conn.y1.toFixed(2)}" x2="${conn.x2.toFixed(2)}" y2="${conn.y2.toFixed(2)}" ${strokeStyle}/>`;
+    const lineId = EXPORT_SVG_FOR_AE ? ` id="line-${index}"` : '';
+    svg += `\n    <line${lineId} x1="${conn.x1.toFixed(2)}" y1="${conn.y1.toFixed(2)}" x2="${conn.x2.toFixed(2)}" y2="${conn.y2.toFixed(2)}" ${strokeStyle}/>`;
   });
   
-  // Add stars with SVG-specific effects (impossible without SVG!)
-  const svgMagic = seed % 4;
+  if (EXPORT_SVG_FOR_AE) {
+    svg += `\n    </g>`;
+  }
+  
+  // Add stars with After Effects grouping
+  if (EXPORT_SVG_FOR_AE) {
+    svg += `\n    <g id="constellation-stars">`;
+  }
+  
+  const svgMagic = EXPORT_SVG_FOR_AE ? 0 : seed % 4; // Simplify for AE
   stars.forEach((star, index) => {
     const opacity = star.isCrypto ? '0.8' : '0.6';
     const fill = star.isCrypto ? 'rgba(243,156,107,0.8)' : 'rgba(255,255,255,0.6)';
     const sizeMultiplier = 0.7 + (index % 5) * 0.2; // 0.7x to 1.5x size variety
+    const starId = EXPORT_SVG_FOR_AE ? ` id="star-${index}"` : '';
+    const cryptoClass = star.isCrypto && EXPORT_SVG_FOR_AE ? ` class="crypto-star"` : '';
     
-    // SVG-specific magic that's impossible with raster graphics
-    switch(svgMagic) {
-      case 0: // Animated pulsing (SVG only!)
-        svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}">`;
-        svg += `\n      <animate attributeName="opacity" values="${opacity};${opacity*0.3};${opacity}" dur="${2 + (index % 4)}s" repeatCount="indefinite"/>`;
-        svg += `\n    </circle>`;
-        break;
-      case 1: // Gradient fills (SVG superpower!)
-        const gradientId = `star-gradient-${index}`;
-        svg += `\n    <defs><radialGradient id="${gradientId}"><stop offset="0%" stop-color="${fill}" stop-opacity="${opacity}"/><stop offset="100%" stop-color="${fill}" stop-opacity="0"/></radialGradient></defs>`;
-        svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier * 1.5).toFixed(2)}" fill="url(#${gradientId})"/>`;
-        break;
-      case 2: // Vector blur filters (impossible in CSS!)
-        svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}" filter="url(#brand-glow)"/>`;
-        break;
-      case 3: // Morphing circles (pure SVG magic!)
-        const morphRadius = star.radius * sizeMultiplier;
-        svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${morphRadius.toFixed(2)}" fill="${fill}">`;
-        svg += `\n      <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="${3 + (index % 3)}s" repeatCount="indefinite"/>`;
-        svg += `\n    </circle>`;
-        break;
+    if (EXPORT_SVG_FOR_AE) {
+      // Clean circles for After Effects
+      svg += `\n      <circle${starId}${cryptoClass} cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}"/>`;
+    } else {
+      // SVG-specific magic for web
+      switch(svgMagic) {
+        case 0: // Animated pulsing
+          svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}">`;
+          svg += `\n      <animate attributeName="opacity" values="${opacity};${opacity*0.3};${opacity}" dur="${2 + (index % 4)}s" repeatCount="indefinite"/>`;
+          svg += `\n    </circle>`;
+          break;
+        case 1: // Gradient fills
+          const gradientId = `star-gradient-${index}`;
+          svg += `\n    <defs><radialGradient id="${gradientId}"><stop offset="0%" stop-color="${fill}" stop-opacity="${opacity}"/><stop offset="100%" stop-color="${fill}" stop-opacity="0"/></radialGradient></defs>`;
+          svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier * 1.5).toFixed(2)}" fill="url(#${gradientId})"/>`;
+          break;
+        case 2: // Vector blur filters
+          svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}" filter="url(#brand-glow)"/>`;
+          break;
+        case 3: // Morphing circles
+          const morphRadius = star.radius * sizeMultiplier;
+          svg += `\n    <circle cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${morphRadius.toFixed(2)}" fill="${fill}">`;
+          svg += `\n      <animateTransform attributeName="transform" type="scale" values="1;1.3;1" dur="${3 + (index % 3)}s" repeatCount="indefinite"/>`;
+          svg += `\n    </circle>`;
+          break;
+      }
     }
   });
+  
+  if (EXPORT_SVG_FOR_AE) {
+    svg += `\n    </g>`;
+  }
   
   svg += '\n  </g>';
   
@@ -362,6 +399,11 @@ function populateTemplate(svgContent, quote, quoteIndex = 0) {
   
   for (const textEl of textElements) {
     const tspans = textEl.querySelectorAll('tspan');
+    
+    // Add After Effects grouping to text elements
+    if (EXPORT_SVG_FOR_AE && textEl.getAttribute('class')) {
+      textEl.setAttribute('id', `text-${textEl.getAttribute('class').replace(/\s+/g, '-')}`);
+    }
     
     // NUKE ALL LOREM IPSUM - if ANY tspan contains Lorem ipsum keywords, replace the whole element
     const hasLoremIpsum = Array.from(tspans).some(tspan => 
@@ -535,27 +577,38 @@ async function main() {
     for (const template of templates) {
       try {
         const svg = populateTemplate(template.content, quote, i);
-        const filename = `${template.name}_${quote.slug}.png`;
         
-        // Detect format and resize accordingly
-        const isSquare = svg.includes('viewBox="0 0 108 108"');
-        const width = isSquare ? 1080 : 1080;
-        const height = isSquare ? 1080 : 1920;
-        
-        // Convert SVG to PNG
-        let pngBuffer = await sharp(Buffer.from(svg))
-          .resize(width, height)
-          .png({ quality: 100 })
-          .toBuffer();
-        
-        // 🔧 Apply glitch effects if enabled
-        if (ENABLE_GLITCH_EFFECTS) {
-          pngBuffer = await applyGlitchEffects(pngBuffer, quote);
+        if (EXPORT_SVG_FOR_AE) {
+          // Export clean SVG for After Effects in separate folder
+          if (!fs.existsSync('./svg-exports')) {
+            fs.mkdirSync('./svg-exports');
+          }
+          const filename = `${template.name}_${quote.slug}.svg`;
+          fs.writeFileSync(`./svg-exports/${filename}`, svg);
+          console.log(`✅ ${filename} (AE-ready)`);
+        } else {
+          // Export PNG as usual
+          const filename = `${template.name}_${quote.slug}.png`;
+          
+          // Detect format and resize accordingly
+          const isSquare = svg.includes('viewBox="0 0 108 108"');
+          const width = isSquare ? 1080 : 1080;
+          const height = isSquare ? 1080 : 1920;
+          
+          // Convert SVG to PNG
+          let pngBuffer = await sharp(Buffer.from(svg))
+            .resize(width, height)
+            .png({ quality: 100 })
+            .toBuffer();
+          
+          // 🔧 Apply glitch effects if enabled
+          if (ENABLE_GLITCH_EFFECTS) {
+            pngBuffer = await applyGlitchEffects(pngBuffer, quote);
+          }
+          
+          fs.writeFileSync(`./stories/${filename}`, pngBuffer);
+          console.log(`✅ ${filename}`);
         }
-        
-        fs.writeFileSync(`./stories/${filename}`, pngBuffer);
-        
-        console.log(`✅ ${filename}`);
         count++;
       } catch (error) {
         console.log(`❌ Failed: ${template.name} - ${error.message}`);
