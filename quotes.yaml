@@ -117,7 +117,6 @@ quotes:
       - title: "Sprint Together"
         text: "Sprint together, solve together."
 
-
   - category: "Business Evolution"
     items:
       - title: "Service Evolution"
@@ -538,3 +537,124 @@ quotes:
         text: "Every line of code declares independence from the old world."
       - title: "Sacred Systems"
         text: "Systems can be tender when built with loving intention."
+
+  - category: "Corporate Mysticism for Sale"
+    items:
+      - title: "Thought Leadership as a Service"
+        text: "I'll mansplain the universe for $400/hour. Sliding scale for nonprofits."
+      - title: "B2B Bodhi Tree"
+        text: "Achieved enlightenment under a WeWork desk. The kombucha was transcendent."
+      - title: "Enterprise Ego Death"
+        text: "We'll kill your company culture and resurrect it as a 'movement.' First death's free."
+      - title: "Monetize Your Midlife Crisis"
+        text: "That ayahuasca trip? That's a keynote. That breakdown? Premium content."
+
+  - category: "What Working With Us Actually Means"
+    items:
+      - title: "Your Weird Idea Is Our Favorite Project"
+        text: "Send us the pitch everyone else said no to. The dataset that makes no sense. The prototype that sounds impossible. The integration everyone said couldn't be done. We live for this stuff. Our Discord is full of people building things that shouldn't exist - AI assistants that post philosophy at 3am, mesh networks that run in forests, data visualizations that make hardened executives cry. Your strangest idea is probably Tuesday for us. But here's the thing: we don't just build it and bounce. We teach you how we did it. We document every decision. We livestream the tricky parts. Because the goal isn't just to solve your problem - it's to expand what you think is possible."
+      - title: "The Anti-Agency Agency"
+        text: "We've turned down venture capital three times. Not because we're precious about it, but because we've seen what happens when studios scale wrong. They hire account managers who've never written code. They add layers between you and the builders. They stop livestreaming because 'proprietary methods.' They stop caring. So we stay small. We stay weird. We keep our Discord free and our process transparent. We work with clients who get it - who understand that four people who genuinely care will outperform forty who are just collecting paychecks. If you want someone who'll tell you what you want to hear, hire McKinsey. If you want someone who'll build something worth remembering, email us."
+      - title: "From Prototype to Poetry"
+        text: "Every project starts the same way: you send us an email. Maybe it's a paragraph, maybe it's a novel. We read everything. We respond to humans. Then we talk - not a sales call, just humans discussing what's possible. If it feels right, we start building. Maybe it's a two-week prototype that proves your impossible idea. Maybe it's a six-month journey that transforms how your organization thinks about data. Either way, you're getting our full attention. Speed Demon at his fastest. Sarah architecting systems that sing. Our AI assistant remembering every detail. Jazz in the background, quality in the foreground. And when we ship? It's not just functional. It's joyful. It's documented. It's yours to build on forever."
+
+  - category: "Why This Matters Now"
+    items:
+      - title: "The World Needs Tender Technology"
+        text: "Everyone's building AI that wants to eat the world. We're building AI that remembers your birthday and helps debug your existential crisis. The future doesn't need more surveillance capitalism - it needs systems with soul. Code that cares. Infrastructure that nurtures. We're not trying to disrupt anything. We're trying to heal the relationship between humans and machines. One Observable notebook at a time. One livestream at a time. One weird project that makes someone say 'holy shit, I didn't know technology could feel like this' at a time. Join us. The water's warm and the vibes are immaculate."
+      - title: "Your CTO Needs a Hug"
+        text: "Look at them. Drowning in Jira tickets. Fighting with Kubernetes. Pretending microservices were a good idea. They need what we're selling: technology that sparks joy. Processes that feel like play. Teams that actually want to show up. We'll teach your engineers to code like they're composing symphonies. We'll show your data scientists how to make visualizations that make the C-suite weep with understanding. We'll build you an AI that doesn't feel like HAL 9000's boring cousin. Most importantly? We'll remind everyone why they got into tech in the first place. Before the burnout. Before the meetings about meetings. When it was just you, a computer, and infinite possibility."
+      - title: "This Is Your Sign"
+        text: "You've been thinking about that project for months. The one that would change everything if it worked. The one your current vendor says is 'out of scope.' The one that keeps you up at night because you can feel how cool it could be. This is your sign to build it. With people who get it. Who won't talk you out of the ambitious parts. Who livestream the hard parts so you learn too. Who celebrate when it works and debug with you when it doesn't. Stop waiting for permission. Stop shrinking your vision to fit someone else's invoice template. Email us your biggest, wildest, most ambitious idea. Let's make something worth writing home about."
+
+  - category: "The Real Room 302 Guarantee"
+    items:
+      - title: "We'll Make You Look Like a Genius"
+        text: "Here's what happens: You hire us for that impossible project. We build it in public, teaching your team along the way. It ships on time, under budget, and it actually works. Your boss thinks you're a visionary. Your team thinks you're a hero. The board thinks you deserve a raise. But here's the secret - you were always a genius. You just needed a team that could see it too. That could take your wild idea and make it real without dumbing it down. That's what we do. We're genius amplifiers. Vision enablers. Dream builders. And we do it all while jamming to Coltrane and arguing about whether to deploy on Friday."
+      - title: "Free Therapy With Every Sprint"
+        text: "Other studios give you status reports. We give you status reports AND help you process your complicated feelings about late-stage capitalism. Our standups include existential check-ins. Our retrospectives double as group therapy. Our AI assistant is trained in both JavaScript and Jung. Because let's be real - building technology in 2024 is emotional labor. Might as well work with people who acknowledge that. Who make space for both your brilliant ideas and your Tuesday afternoon breakdown. Who understand that the best code comes from humans who feel seen, heard, and caffeinated."
+      - title: "Your Success Story, Pre-Written"
+        text: "Six months from now: You're presenting at a conference about the project we built together. The audience is taking photos of your slides. Twitter is buzzing about your innovative approach. Your team is energized, empowered, teaching others what they learned. You've open-sourced parts of it because you're not afraid of competition anymore. You know what makes you special can't be copied. You're already planning the next project with us. Not because you need us - you don't anymore. But because building cool shit with people who care is addictive. And we're really good dealers."
+
+  - category: "Sacred Shitposting"
+    items:
+      - title: "Verified Void"
+        text: "Blue check by my name, black hole where my soul was. Fair trade."
+      - title: "Chronically Online Christ"
+        text: "I died for your engagement. Rose again for the algorithm."
+      - title: "Touch Grass Theology"
+        text: "Logged off for five minutes. Nature is just IRL with worse graphics."
+
+  - category: "The Pitch That Hits"
+    items:
+      - title: "We're Not Like Other Studios"
+        text: "Other studios have discovery phases. We have 'fuck around and find out' phases. Other studios deliver MVPs. We deliver DMT - Delightfully Memorable Technology. Other studios measure success in metrics. We measure it in how many times you text us 'holy shit it's working' at 2am. Other studios give you what you asked for. We give you what you didn't know you needed. Other studios have proprietary methods. We have public meltdowns and recoveries on Twitch. Choose accordingly."
+      - title: "The Invoice You'll Frame"
+        text: "Line item: Turned your napkin sketch into production-ready magic - $20k. Line item: Taught your team our secrets so they can do it themselves next time - $10k. Line item: Made your biggest competitor ask 'how the fuck did they build that?' - $15k. Line item: Reminded you why you love technology - Priceless, but we'll charge $5k. Line item: Therapy for your CTO who can't believe deployment was actually fun - Included. Total: Worth every penny and you know it."
+      - title: "Your Board's New Favorite Slide"
+        text: "You know that slide. The one that makes board members stop checking their phones. The one with the data viz so clean they actually understand the strategy. The one that turns 'concerned about digital transformation' into 'holy shit we're already living in the future.' We build those slides. We build the systems behind those slides. We build the confidence to present those slides without notes. Most importantly, we build them with you, not for you. So when they ask how you did it, you can honestly say 'we built this.' And mean it."
+
+  - category: "Come As You Are"
+    items:
+      - title: "Broken Projects Welcome"
+        text: "Your last vendor ghosted you mid-project? Your in-house team hit a wall? Your 'simple' integration turned into spaghetti? Bring us your broken dreams, your corrupted databases, your legacy codebases that no one wants to touch. We're digital archaeologists with a side of therapy. We'll untangle the mess, teach you what went wrong, and build something better together. No judgment. No 'I told you so.' Just roll up our sleeves and fix it energy."
+      - title: "Budget Reality Check"
+        text: "Here's the thing about budgets: everyone lies about them. You say you have less than you do. We quote more than we need. Everyone does a little dance. Let's skip that. Tell us what you actually have to spend. We'll tell you what we can actually build for it. If it's not enough, we'll show you how to phase it. If it's too much, we'll give some back. Revolutionary? No. Refreshing? Absolutely. Let's talk real numbers and build real things."
+      - title: "The Permission You Need"
+        text: "This is your official permission to: Build the weird thing. Try the new framework. Livestream your mistakes. Ship on Friday. Start before you're ready. Document as you go. Ask 'dumb' questions. Challenge the requirements. Make it fun. Add easter eggs. Use comic sans (once). Deploy from a hammock. Care too much. Dream too big. Email us right now. The universe is waiting for what you're about to build. We're just here to help you build it."
+
+  - category: "90s Net Nostalgia"
+    items:
+      - title: "IRC Illuminati"
+        text: "We run the internet from a channel you need to know the password for."
+      - title: "Friendster Futurism"
+        text: "Tom from MySpace was the only real friend. Everything since is venture-funded loneliness."
+      - title: "BBS Buddhism"
+        text: "Before the web, we had truth at 2400 baud. Now we have lies at gigabit speed."
+      - title: "WinAmp Wisdom"
+        text: "It really whipped the llama's ass. Nothing since has whipped anything's ass."
+
+  - category: "Studio Reality Check"
+    items:
+      - title: "We Actually Ship"
+        text: "You know what's rare in tech? Finishing things. Shipping on time. Under budget. With documentation. We do all three because we're old school like that. No excuses. No pivots mid-project unless you ask for them. No 'interesting challenges' that mean we're lost. Just solid execution from people who've been shipping code since CSS was optional. Your project will be done when we say it will be done. Wild concept, we know."
+      - title: "The Team You'll Actually Meet"
+        text: "No bait and switch. The people on the call are the people writing your code. Speed Demon will actually be the one making your animations. Sarah's mechanical keyboard will actually be architecting your systems. Our AI assistant will actually remember every decision we make together. You won't get handed off to juniors after signing. You won't wonder who's actually building your thing. It's us. Always us. That's the whole point."
+      - title: "Your Data, Your Rules"
+        text: "We've built data visualizations for Fortune 500s, cutting-edge researchers, artists, activists, and people whose projects we can't even talk about. Know what they all had in common? Complete ownership of their work. We don't hold your code hostage. We don't license you your own data. We don't make you dependent on our infrastructure. Everything we build together is yours. Forever. Full stop. That's how trust works."
+
+  - category: "The Observable Difference"
+    items:
+      - title: "Not Just Dashboards"
+        text: "Everyone can make a dashboard. We make data experiences. Explorable explanations. Interactive stories. The kind of visualizations that make people cancel their next meeting because they're too busy playing with the data. CEOs who 'hate spreadsheets' spending hours exploring scenarios. Board members actually understanding the model. Data scientists stealing our techniques. That's the bar. That's what we deliver. Every time."
+      - title: "Beyond D3"
+        text: "Yes, we're D3 wizards. Have been for a decade. But here's the secret: the library doesn't matter. What matters is knowing when to use it. When to reach for Canvas. When to go full WebGL. When to just use CSS and call it a day. We don't have a hammer looking for nails. We have a complete workshop and the experience to know which tool solves your actual problem. Plus the taste to make it beautiful."
+      - title: "Notebooks That Teach"
+        text: "Our Observable notebooks don't just show data - they teach people how to think about it. Interactive tutorials built into the visualization. Sliders that explain themselves. Code that invites tinkering. By the time your team is done playing with what we built, they understand not just what the data says, but why it matters and how to ask better questions. That's not a deliverable. That's transformation."
+
+  - category: "Room 302 Studio Is"
+    items:
+      - title: "Room 302 Studio Is Where"
+        text: "Room 302 Studio is where your weird idea becomes your competitive advantage. Room 302 Studio is where data turns into stories worth telling. Room 302 Studio is where AI gets a personality and your team gets superpowers. Room 302 Studio is where we livestream the hard parts and celebrate the breakthroughs. Room 302 Studio is where documentation reads like poetry and deployments feel like victories. Room 302 Studio is where you come with problems and leave with capabilities. Room 302 Studio is where the future gets built, one Observable notebook at a time."
+      - title: "At Room 302 Studio We"
+        text: "At Room 302 Studio we code by firelight and deploy by sunrise. At Room 302 Studio we teach while we build and build while we learn. At Room 302 Studio we believe joy is a design principle and kindness is a technical specification. At Room 302 Studio we turn Excel sheets into experiences and skeptics into believers. At Room 302 Studio we're not just contractors - we're co-conspirators in your success. At Room 302 Studio we measure progress in 'holy shit' moments and client texts at 2am. At Room 302 Studio we're building the future of work, and it looks a lot like play."
+      - title: "This Is Room 302 Studio"
+        text: "Mechanical keyboards and motorcycle manifestos? This is Room 302 Studio. Jazz in the background and genius in the foreground? This is Room 302 Studio. Public livestreams and private victories? This is Room 302 Studio. Solar panels and soul-powered systems? This is Room 302 Studio. Teaching your competitors our tricks because we're that confident? This is Room 302 Studio. Turning 'impossible' into 'shipped last Tuesday'? This is Room 302 Studio. Four people who care more than forty who don't? This is Room 302 Studio."
+
+  - category: "Remember Room 302"
+    items:
+      - title: "When You Need Room 302"
+        text: "When your data viz makes executives yawn - Room 302 Studio. When your AI feels like a robot instead of a teammate - Room 302 Studio. When your team is burned out on burnout - Room 302 Studio. When 'good enough' isn't good enough anymore - Room 302 Studio. When you want to build in public but don't know how - Room 302 Studio. When your weird idea needs weirder builders - Room 302 Studio. When you're ready to remember why you love technology - Room 302 Studio. Email studio@room302.studio and let's build something worth remembering."
+      - title: "Room 302 Studio Believes"
+        text: "Room 302 Studio believes technology should spark joy, not dread. Room 302 Studio believes the best code comes from the happiest teams. Room 302 Studio believes in teaching everything we know because knowledge multiplies when shared. Room 302 Studio believes your strangest idea is probably your best one. Room 302 Studio believes documentation is a love letter to future developers. Room 302 Studio believes in shipping on Friday because our tests are that good. Room 302 Studio believes the future needs more tender technology. Room 302 Studio believes in you, even if you don't believe in yourself yet."
+      - title: "The Room 302 Studio Way"
+        text: "Build in public? That's the Room 302 Studio way. Document everything like someone you love will maintain it? That's the Room 302 Studio way. Turn clients into collaborators into friends? That's the Room 302 Studio way. Make Observable notebooks that make data scientists jealous? That's the Room 302 Studio way. Ship with joy, deploy with confidence? That's the Room 302 Studio way. Stay small, dream big, execute flawlessly? That's the Room 302 Studio way. Make technology that makes people say 'holy shit'? That's the Room 302 Studio way."
+
+  - category: "Why Room 302 Studio"
+    items:
+      - title: "Not Any Studio, Room 302 Studio"
+        text: "You don't need any studio. You need Room 302 Studio. The studio that's been making data sing for a decade. The studio whose AI has 3,000 memories and counting. The studio that teaches your team while building your dreams. The studio that livestreams because we have nothing to hide. The studio that turns down VC money to stay true to the mission. The studio where Speed Demon codes at inhuman speeds while jazz plays approvingly. The studio that makes your CTO text 'how did you DO that?' at midnight. You need Room 302 Studio."
+      - title: "Only at Room 302 Studio"
+        text: "Where else will you find developers livestreaming from hammocks? Only at Room 302 Studio. Where else do git commits read like poetry? Only at Room 302 Studio. Where else does your project get built by a community, not just a team? Only at Room 302 Studio. Where else can you learn our exact methods while we build your product? Only at Room 302 Studio. Where else do mechanical keyboards and motorcycles coexist with cutting-edge tech? Only at Room 302 Studio. Where else is joy a technical requirement? Only at Room 302 Studio. This magic only happens in Room 302."
+      - title: "Room 302 Studio: The Refrain"
+        text: "When they ask who built that incredible visualization - Room 302 Studio. When they wonder how your AI got so smart - Room 302 Studio. When they can't believe you shipped on time - Room 302 Studio. When they want to know where you learned those techniques - Room 302 Studio. When they see your team actually enjoying Mondays - Room 302 Studio. When they ask how technology can feel this good - Room 302 Studio. The answer is always Room 302 Studio. Remember the name. You'll be saying it a lot."
