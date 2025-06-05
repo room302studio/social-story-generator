@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 108 192">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        letter-spacing: .4em;
+        fill: white;
+      }
+
+      .st0, .st1, .st2 {
+        font-family: Silkscreen-Regular, Silkscreen;
+        font-size: 1.2px;
+      }
+
+      .st3 {
+        fill: white;
+        font-family: IBMPlexSans-Light, 'IBM Plex Sans';
+        font-size: 6.4px;
+        font-weight: 300;
+        letter-spacing: 0em;
+      }
+
+      .st1 {
+        letter-spacing: .2em;
+        fill: white;
+      }
+
+      .st2 {
+        letter-spacing: .6em;
+        fill: white;
+      }
+
+      .st4 {
+        font-family: IBMPlexSans-Bold, 'IBM Plex Sans';
+        font-size: 9.2px;
+        font-weight: 700;
+        letter-spacing: 0em;
+        fill: white;
+      }
+
+      .bg {
+        fill: #2a3944;
+      }
+    </style>
+  </defs>
+  <rect class="bg" width="108" height="192"/>
+  <text class="st3" transform="translate(12.1 64)"><tspan x="0" y="0">Lorem ipsum dolor sit amet, </tspan><tspan x="0" y="6.8">consectetuer adipiscing elit, </tspan><tspan x="0" y="13.6">sed diam nonummy nibh </tspan><tspan x="0" y="20.4">euismod tincidunt ut laoreet </tspan><tspan x="0" y="27.2">dolore magna aliquam erat </tspan><tspan x="0" y="34">volutpat. Ut wisi enim ad </tspan><tspan x="0" y="40.8">minim veniam, quis nostrud </tspan><tspan x="0" y="47.6">exerci tation ullamcorper </tspan><tspan x="0" y="54.4">suscipit lobortis nisl ut aliquip </tspan><tspan x="0" y="61.2">ex ea commodo consequat. </tspan><tspan x="0" y="68">Duis autem vel eum iriure </tspan><tspan x="0" y="74.8">dolor in hendrerit in vulputate </tspan><tspan x="0" y="81.6">velit esse molestie consequat, </tspan><tspan x="0" y="88.4">vel illum dolore eu feugiat </tspan><tspan x="0" y="95.2">nulla facilisis at vero eros et </tspan><tspan x="0" y="102">accumsan et iusto odio </tspan></text>
+  <text class="st4" transform="translate(12.3 33.4)"><tspan x="0" y="0">Lorem ipsum</tspan></text>
+  <image width="5464" height="3072" transform="translate(22.6 166.1) scale(0)" xlink:href="../2023/Room302/302_3d-notext.png"/>
+  <text class="st0" transform="translate(3.5 166.1) rotate(-90)"><tspan x="0" y="0">SUMMER 2025 - thoughts and prototypes - brought to you by the room 302 studio team</tspan></text>
+  <text class="st1" transform="translate(13.1 36.7)"><tspan x="0" y="0">WHEREIN WE EXTOLL THE VIRTUES OF WORKING WITH AN OPEN MIND AND HEART</tspan></text>
+  <text class="st2" transform="translate(105.4 165.9) rotate(-90)"><tspan x="0" y="0">EXPLORING THE BOUNDARIES AND THE CUTTING EDGE FOR PLEASURE AND PROFIT</tspan></text>
+</svg>
