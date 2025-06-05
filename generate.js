@@ -5,6 +5,8 @@ const sharp = require('sharp');
 const { JSDOM } = require('jsdom');
 const yaml = require('yaml');
 const nlp = require('compromise');
+const Chance = require('chance');
+const glitch = require('glitch-canvas');
 
 // 🎨 GENERATIVE ART TOGGLES
 const ENABLE_CONSTELLATIONS = true;
@@ -46,19 +48,78 @@ function hashString(str) {
   return Math.abs(hash);
 }
 
-function generateConstellation(quote, templateBounds, cardIndex = 0) {
+// 🌟 CREATE WORD FROM STARS - spell out words with constellation points
+function createWordFromStars(word, templateBounds, chance) {
+  const wordStars = [];
+  const letterWidth = 6; // Width per letter in template units
+  const letterHeight = 8; // Height per letter
+  const wordWidth = word.length * letterWidth;
+  
+  // Position word in background (upper area, not interfering with text)
+  const startX = (templateBounds.width - wordWidth) / 2;
+  const startY = templateBounds.height * 0.15; // Top 15% of card
+  
+  // Simple letter patterns using star coordinates (minimal but readable)
+  const letterPatterns = {
+    'A': [[2,7],[1,5],[3,5],[0,3],[4,3],[1,1],[3,1]],
+    'B': [[0,7],[0,5],[0,3],[0,1],[2,7],[2,5],[2,3],[2,1],[4,6],[4,4],[4,2]],
+    'C': [[4,6],[2,7],[0,5],[0,3],[2,1],[4,2]],
+    'D': [[0,7],[0,5],[0,3],[0,1],[2,7],[2,1],[4,6],[4,4],[4,2]],
+    'E': [[0,7],[0,5],[0,3],[0,1],[4,7],[2,5],[4,1]],
+    'F': [[0,7],[0,5],[0,3],[0,1],[4,7],[2,5]],
+    'G': [[4,6],[2,7],[0,5],[0,3],[2,1],[4,2],[4,4],[3,4]],
+    'H': [[0,7],[0,5],[0,3],[0,1],[4,7],[4,5],[4,3],[4,1],[2,5]],
+    'I': [[1,7],[2,7],[3,7],[2,5],[2,3],[1,1],[2,1],[3,1]],
+    'J': [[0,7],[1,7],[2,7],[3,7],[2,5],[2,3],[2,1],[1,1],[0,2]],
+    'K': [[0,7],[0,5],[0,3],[0,1],[4,7],[2,5],[4,1]],
+    'L': [[0,7],[0,5],[0,3],[0,1],[2,1],[4,1]],
+    'M': [[0,7],[0,5],[0,3],[0,1],[1,6],[2,5],[3,6],[4,7],[4,5],[4,3],[4,1]],
+    'N': [[0,7],[0,5],[0,3],[0,1],[1,6],[2,5],[3,4],[4,7],[4,5],[4,3],[4,1]],
+    'O': [[2,7],[0,5],[0,3],[2,1],[4,5],[4,3]],
+    'P': [[0,7],[0,5],[0,3],[0,1],[2,7],[2,5],[4,6],[4,4]],
+    'Q': [[2,7],[0,5],[0,3],[2,1],[4,5],[4,3],[3,2]],
+    'R': [[0,7],[0,5],[0,3],[0,1],[2,7],[2,5],[4,6],[4,4],[3,2],[4,1]],
+    'S': [[4,6],[2,7],[0,5],[2,5],[4,3],[2,1],[0,2]],
+    'T': [[0,7],[1,7],[2,7],[3,7],[4,7],[2,5],[2,3],[2,1]],
+    'U': [[0,7],[0,5],[0,3],[2,1],[4,7],[4,5],[4,3]],
+    'V': [[0,7],[0,5],[1,3],[2,1],[3,3],[4,7],[4,5]],
+    'W': [[0,7],[0,5],[0,3],[1,1],[2,3],[3,1],[4,7],[4,5],[4,3]],
+    'X': [[0,7],[1,6],[2,5],[3,4],[4,3],[3,2],[2,1],[1,2],[0,1],[4,7]],
+    'Y': [[0,7],[1,6],[2,5],[3,4],[4,7],[2,3],[2,1]],
+    'Z': [[0,7],[1,7],[2,7],[3,7],[4,7],[3,6],[2,5],[1,4],[0,3],[1,2],[2,1],[3,1],[4,1]]
+  };
+  
+  // Create stars for each letter
+  word.toUpperCase().split('').forEach((letter, letterIndex) => {
+    const pattern = letterPatterns[letter];
+    if (pattern) {
+      pattern.forEach(([x, y]) => {
+        wordStars.push({
+          x: startX + letterIndex * letterWidth + x,
+          y: startY + y,
+          radius: chance.floating({min: 0.3, max: 0.5}), // Slightly smaller for word stars
+          isWordStar: true,
+          wordLetter: letter
+        });
+      });
+    }
+  });
+  
+  return wordStars;
+}
+
+function generateConstellation(quote, templateBounds, cardIndex = 0, textElements = null) {
   if (!ENABLE_CONSTELLATIONS) return '';
   
   const seed = hashString(quote.text);
   const wordCount = quote.text.split(' ').length;
   const charCount = quote.text.length;
+  const isSquare = templateBounds.isSquare;
   
-  // Seeded random number generator
-  let seedValue = seed;
-  function seededRandom() {
-    seedValue = (seedValue * 9301 + 49297) % 233280;
-    return seedValue / 233280;
-  }
+  // Initialize Chance with deterministic seed for consistent results
+  const chance = new Chance(seed);
+  
+  // Using Chance.js for sophisticated probability distributions
   
   const starCount = Math.floor(wordCount * 1.2) + 3; // 4-17 stars
   const connectionThreshold = (charCount % 25) + 15; // 15-40px max connection distance
@@ -85,7 +146,7 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
   ];
   
   // Logo-influenced stars use golden ratio positioning
-  const logoInfluence = seededRandom() < 0.2; // Increased chance for golden positioning
+  const logoInfluence = chance.bool({likelihood: 20}); // Increased chance for golden positioning
 
   // 🔐 CRYPTO STEGANOGRAPHY - Encode quote's key word in star coordinates
   let cryptoStars = [];
@@ -120,10 +181,10 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
     }
     
     // Golden ratio positioning with baseline grid alignment
-    if (logoInfluence && i < goldenPoints.length && seededRandom() < 0.4) {
+    if (logoInfluence && i < goldenPoints.length && chance.bool({likelihood: 40})) {
       const point = goldenPoints[i];
-      x = point.x + (seededRandom() - 0.5) * baselineGrid; // Snap to baseline grid
-      y = point.y + (seededRandom() - 0.5) * baselineGrid;
+      x = point.x + (chance.floating({min: -0.5, max: 0.5})) * baselineGrid; // Snap to baseline grid
+      y = point.y + (chance.floating({min: -0.5, max: 0.5})) * baselineGrid;
       // Align to baseline grid
       x = Math.round(x / baselineGrid) * baselineGrid;
       y = Math.round(y / baselineGrid) * baselineGrid;
@@ -132,14 +193,13 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
       y = Math.max(cardStart, Math.min(cardStart + cardHeight, y));
     } else {
       // Random placement with bottom preference and baseline alignment
-      x = margin + seededRandom() * (templateBounds.width - margin * 2);
+      x = margin + chance.floating({min: 0, max: 1}) * (templateBounds.width - margin * 2);
       
       // Bias toward bottom 60% of card
-      let yRandom = seededRandom();
-      if (yRandom < 0.7) { // 70% chance for bottom area
-        y = cardStart + (templateBounds.height * 0.4) + (yRandom / 0.7) * (templateBounds.height * 0.6);
+      if (chance.bool({likelihood: 70})) { // 70% chance for bottom area
+        y = cardStart + (templateBounds.height * 0.4) + chance.floating({min: 0, max: 1}) * (templateBounds.height * 0.6);
       } else { // 30% chance for top area
-        y = cardStart + ((yRandom - 0.7) / 0.3) * (templateBounds.height * 0.4);
+        y = cardStart + chance.floating({min: 0, max: 1}) * (templateBounds.height * 0.4);
       }
       
       // Snap to baseline grid for mathematical precision
@@ -150,26 +210,82 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
     stars.push({
       x: x,
       y: y,
-      radius: 0.3 + seededRandom() * 0.4 // 0.3-0.7px
+      radius: chance.floating({min: 0.3, max: 0.7}) // 0.3-0.7px
     });
   }
   
-  // Generate connections between nearby stars
+  // Generate connections - for square format, connect to text areas
   const connections = [];
-  for (let i = 0; i < stars.length; i++) {
-    for (let j = i + 1; j < stars.length; j++) {
-      const distance = Math.sqrt(
-        Math.pow(stars[i].x - stars[j].x, 2) + 
-        Math.pow(stars[i].y - stars[j].y, 2)
-      );
-      
-      if (distance < connectionThreshold) {
+  
+  if (isSquare) {
+    // 🌟 STAR WORD FORMATION - spell out key word with stars
+    const doc = nlp(quote.text);
+    const nouns = doc.nouns().out('array');
+    const adjectives = doc.adjectives().out('array');
+    const verbs = doc.verbs().out('array');
+    
+    // Pick the most impactful word (shortest for better star formation)
+    const keyWord = [...nouns, ...adjectives, ...verbs]
+      .filter(word => word.length >= 3 && word.length <= 6) // Good length for star letters
+      .sort((a, b) => b.length - a.length)[0];
+    
+    if (keyWord && chance.bool({likelihood: 40})) { // 40% chance for word formation
+      const wordStars = createWordFromStars(keyWord, templateBounds, chance);
+      stars.push(...wordStars);
+    }
+    
+    // For square cards, create precise connections between stars and text areas
+    const textAnchorPoints = [
+      { x: templateBounds.width * 0.5, y: templateBounds.height * 0.35 }, // Title center
+      { x: templateBounds.width * 0.15, y: templateBounds.height * 0.55 }, // Left text edge
+      { x: templateBounds.width * 0.85, y: templateBounds.height * 0.55 }, // Right text edge
+      { x: templateBounds.width * 0.5, y: templateBounds.height * 0.75 }, // Bottom text center
+    ];
+    
+    // Connect original stars to text anchor points (exclude word stars)
+    const originalStars = stars.filter(star => !star.isWordStar);
+    for (let i = 0; i < Math.min(originalStars.length, 4); i++) {
+      const anchor = textAnchorPoints[i];
+      connections.push({
+        x1: originalStars[i].x,
+        y1: originalStars[i].y,
+        x2: anchor.x,
+        y2: anchor.y,
+        isTextConnection: true
+      });
+    }
+    
+    // Minimal star-to-star connections - only adjacent original stars
+    for (let i = 0; i < Math.min(originalStars.length - 1, 3); i++) {
+      const nextStar = i + 1;
+      if (nextStar < originalStars.length) {
         connections.push({
-          x1: stars[i].x,
-          y1: stars[i].y,
-          x2: stars[j].x,
-          y2: stars[j].y
+          x1: originalStars[i].x,
+          y1: originalStars[i].y,
+          x2: originalStars[nextStar].x,
+          y2: originalStars[nextStar].y,
+          isTextConnection: false
         });
+      }
+    }
+  } else {
+    // Standard story format - star-to-star connections only
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const distance = Math.sqrt(
+          Math.pow(stars[i].x - stars[j].x, 2) + 
+          Math.pow(stars[i].y - stars[j].y, 2)
+        );
+        
+        if (distance < connectionThreshold) {
+          connections.push({
+            x1: stars[i].x,
+            y1: stars[i].y,
+            x2: stars[j].x,
+            y2: stars[j].y,
+            isTextConnection: false
+          });
+        }
       }
     }
   }
@@ -196,10 +312,16 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
   }
   
   connections.forEach((conn, index) => {
-    let strokeStyle = `stroke="rgba(255,255,255,${connectionOpacity})" stroke-width="${strokeWidth}"`;
+    // Text connections get different styling
+    const opacity = conn.isTextConnection ? connectionOpacity * 0.6 : connectionOpacity;
+    const width = conn.isTextConnection ? strokeWidth * 0.7 : strokeWidth;
+    let strokeStyle = `stroke="rgba(255,255,255,${opacity})" stroke-width="${width}"`;
     
-    // Varied connection styles (simplified for AE)
-    if (!EXPORT_SVG_FOR_AE) {
+    // Text connections get subtle dotted style
+    if (conn.isTextConnection) {
+      strokeStyle += ` stroke-dasharray="${width * 3},${width * 2}"`;
+    } else if (!EXPORT_SVG_FOR_AE) {
+      // Varied connection styles for star-to-star (simplified for AE)
       switch(connectionStyle) {
         case 0: // Solid lines (default)
           break;
@@ -216,7 +338,8 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
     }
     
     const lineId = EXPORT_SVG_FOR_AE ? ` id="line-${index}"` : '';
-    svg += `\n    <line${lineId} x1="${conn.x1.toFixed(2)}" y1="${conn.y1.toFixed(2)}" x2="${conn.x2.toFixed(2)}" y2="${conn.y2.toFixed(2)}" ${strokeStyle}/>`;
+    const lineClass = conn.isTextConnection && EXPORT_SVG_FOR_AE ? ` class="text-connection"` : '';
+    svg += `\n    <line${lineId}${lineClass} x1="${conn.x1.toFixed(2)}" y1="${conn.y1.toFixed(2)}" x2="${conn.x2.toFixed(2)}" y2="${conn.y2.toFixed(2)}" ${strokeStyle}/>`;
   });
   
   if (EXPORT_SVG_FOR_AE) {
@@ -230,15 +353,32 @@ function generateConstellation(quote, templateBounds, cardIndex = 0) {
   
   const svgMagic = EXPORT_SVG_FOR_AE ? 0 : seed % 4; // Simplify for AE
   stars.forEach((star, index) => {
-    const opacity = star.isCrypto ? '0.8' : '0.6';
-    const fill = star.isCrypto ? 'rgba(243,156,107,0.8)' : 'rgba(255,255,255,0.6)';
-    const sizeMultiplier = 0.7 + (index % 5) * 0.2; // 0.7x to 1.5x size variety
+    // Word stars get special styling
+    let opacity, fill, sizeMultiplier;
+    if (star.isWordStar) {
+      opacity = '0.4';
+      fill = 'rgba(255,255,255,0.4)';
+      sizeMultiplier = 0.8; // Consistent size for word formation
+    } else if (star.isCrypto) {
+      opacity = '0.8';
+      fill = 'rgba(243,156,107,0.8)';
+      sizeMultiplier = 0.7 + (index % 5) * 0.2;
+    } else {
+      opacity = '0.6';
+      fill = 'rgba(255,255,255,0.6)';
+      sizeMultiplier = 0.7 + (index % 5) * 0.2;
+    }
+    
     const starId = EXPORT_SVG_FOR_AE ? ` id="star-${index}"` : '';
-    const cryptoClass = star.isCrypto && EXPORT_SVG_FOR_AE ? ` class="crypto-star"` : '';
+    let starClass = '';
+    if (EXPORT_SVG_FOR_AE) {
+      if (star.isCrypto) starClass = ` class="crypto-star"`;
+      else if (star.isWordStar) starClass = ` class="word-star"`;
+    }
     
     if (EXPORT_SVG_FOR_AE) {
       // Clean circles for After Effects
-      svg += `\n      <circle${starId}${cryptoClass} cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}"/>`;
+      svg += `\n      <circle${starId}${starClass} cx="${star.x.toFixed(2)}" cy="${star.y.toFixed(2)}" r="${(star.radius * sizeMultiplier).toFixed(2)}" fill="${fill}"/>`;
     } else {
       // SVG-specific magic for web
       switch(svgMagic) {
@@ -300,15 +440,11 @@ async function applyGlitchEffects(imageBuffer, quote) {
     // Apply subtle scan line displacement
     if (glitchParams.scanLineIntensity > 0) {
       const seed = hashString(quote.text);
-      let seedValue = seed;
-      function seededRandom() {
-        seedValue = (seedValue * 9301 + 49297) % 233280;
-        return seedValue / 233280;
-      }
+      const glitchChance = new Chance(seed);
       
       for (let y = Math.floor(height * 0.7); y < height; y++) { // Bottom 30% only
-        if (seededRandom() < 0.1) { // 10% of lines affected
-          const shift = Math.floor((seededRandom() - 0.5) * glitchParams.scanLineIntensity * 10);
+        if (glitchChance.bool({likelihood: 10})) { // 10% of lines affected
+          const shift = Math.floor((glitchChance.floating({min: -0.5, max: 0.5})) * glitchParams.scanLineIntensity * 10);
           if (Math.abs(shift) > 0) {
             const rowStart = y * width * channels;
             const rowEnd = rowStart + width * channels;
@@ -337,15 +473,11 @@ async function applyGlitchEffects(imageBuffer, quote) {
     // Apply sparse digital noise in constellation region
     if (glitchParams.noiseSparsity < 1) {
       const seed = hashString(quote.text + 'noise');
-      let seedValue = seed;
-      function seededRandom() {
-        seedValue = (seedValue * 9301 + 49297) % 233280;
-        return seedValue / 233280;
-      }
+      const noiseChance = new Chance(seed);
       
       for (let i = Math.floor(pixelArray.length * 0.7); i < pixelArray.length; i += channels) {
-        if (seededRandom() > glitchParams.noiseSparsity) {
-          const intensity = seededRandom() * 100 + 155; // 155-255 brightness
+        if (noiseChance.floating({min: 0, max: 1}) > glitchParams.noiseSparsity) {
+          const intensity = noiseChance.floating({min: 155, max: 255}); // 155-255 brightness
           pixelArray[i] = pixelArray[i + 1] = pixelArray[i + 2] = intensity; // RGB
         }
       }
@@ -601,7 +733,32 @@ async function main() {
             .png({ quality: 100 })
             .toBuffer();
           
-          // 🔧 Apply glitch effects if enabled
+          // 🎲 ULTRA-RARE GLITCH CANVAS EFFECT (0.5% chance)
+          const seed = hashString(quote.text + template.name);
+          const chance = new Chance(seed);
+          if (chance.bool({likelihood: 0.3})) { // 0.3% chance - super rare
+            try {
+              console.log(`✨ Subtle glitch canvas effect`);
+              const glitchParams = {
+                seed: chance.integer({min: 20, max: 60}),
+                quality: chance.integer({min: 85, max: 95}), // High quality = subtle
+                amount: chance.integer({min: 5, max: 15}), // Low amount = barely noticeable
+                iterations: chance.integer({min: 1, max: 3}) // Few iterations = gentle
+              };
+              
+              const dataURL = await glitch(glitchParams)
+                .fromBuffer(pngBuffer)
+                .toDataURL();
+              
+              // Convert back to buffer
+              const base64Data = dataURL.replace(/^data:image\/\w+;base64,/, '');
+              pngBuffer = Buffer.from(base64Data, 'base64');
+            } catch (error) {
+              console.log(`⚠️  Glitch canvas failed: ${error.message}`);
+            }
+          }
+          
+          // 🔧 Apply custom glitch effects if enabled
           if (ENABLE_GLITCH_EFFECTS) {
             pngBuffer = await applyGlitchEffects(pngBuffer, quote);
           }
