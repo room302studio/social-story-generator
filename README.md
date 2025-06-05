@@ -1,10 +1,10 @@
 # Room 302 Studio Social Media Generator
 
-An elegant Instagram story generator that transforms quotes into beautiful social media content using SVG templates and modern web technologies.
+An absolutely unhinged Instagram story generator that turns philosophy into viral content using SVG templates and procedural art that hits different.
 
 ## 🎯 What It Does
 
-Generates Instagram-ready images (stories and posts) from a curated collection of Room 302 Studio quotes. Takes 116 philosophical quotes about hacking, prototyping, neurodivergent thinking, and creative process, then renders them across 2 SVG templates to create 232 unique social media images.
+Generates Instagram-ready content that actually slaps from 156 curated Room 302 Studio quotes. Takes our best philosophical hot takes about hacking, prototyping, neurodivergent genius energy, and creative chaos, then renders them across 2 clean templates with procedural constellation art to create 312 unique posts that will make your followers stop scrolling.
 
 ## ⚡ Quick Start
 
@@ -13,7 +13,7 @@ npm install
 node generate.js
 ```
 
-That's it! Your social media content will be in the `./stories/` folder.
+That's literally it! Your content drops into the `./stories/` folder ready to post and watch the engagement go brrrr.
 
 ## 🎨 Features
 
@@ -34,18 +34,18 @@ That's it! Your social media content will be in the `./stories/` folder.
 └── stories/             # Generated PNG images
 ```
 
-## 🧠 Quote Categories
+## 🧠 Quote Categories That Actually Hit
 
-The quotes span 8 core themes that define the Room 302 Studio ethos:
+The quotes span 16 themes that capture the full Room 302 Studio energy:
 
-- **Neurodivergent Genius** - "Different minds see different solutions"
-- **Hacker Philosophy** - "Break it open, see how it works, make it better"
-- **Rapid Prototyping** - "Fail fast, learn faster, iterate fastest"
-- **Creative Process** - "Creativity is messy. Clean up later"
-- **Flow State & Focus** - "Three hours of flow beats eight hours of meetings"
-- **Unconventional Wisdom** - "Use the wrong tool for the job. Discover new possibilities"
-- **Building in Public** - "Show your work, even when it's ugly"
-- **Core Philosophy** - "Give credit, take blame"
+- **Neurodivergent Genius** - "Our brains just hit different and that's the whole point"
+- **Hacker Philosophy** - "Every system has cheat codes. Your job is finding them"
+- **Rapid Prototyping** - "Ship it messy, patch it live, glow up forever"
+- **Creative Process** - "Make it work first, make it pretty later"
+- **Building in Public** - "Post your ugly drafts. Vulnerability is the vibe"
+- **Core Philosophy** - "Give credit, take blame. Period"
+- **Crow Wisdom** - "Under digital skies, corvids dance with untold tales"
+- **Creative Amplification** - "Humans + AI = creativity that absolutely sends"
 
 ## 🛠 How It Works
 

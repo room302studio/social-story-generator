@@ -1,0 +1,21 @@
+# Generated content
+stories/
+*.png
+
+# Node modules
+node_modules/
+
+# Temp files
+test-*.js
+test-*.svg
+
+# System files
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
