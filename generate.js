@@ -536,7 +536,7 @@ async function processQuoteTemplate(quote, template, quoteIndex, totalQuotes, al
     // Re-enable glitch effects
     glitchBuffer = await applyGlitchEffects(glitchBuffer, quote, true);
     
-    // Re-enable canvas glitch
+    // Apply glitch-canvas effect with proper Promise handling
     try {
       const glitchParams = {
         seed: chance.integer({ min: 1, max: 99 }),
@@ -546,12 +546,19 @@ async function processQuoteTemplate(quote, template, quoteIndex, totalQuotes, al
       };
       
       if (Buffer.isBuffer(glitchBuffer) && glitchBuffer.length > 0) {
-        const glitchedResult = glitch(glitchBuffer, glitchParams);
-        // Ensure we get a buffer back from glitch-canvas
-        if (Buffer.isBuffer(glitchedResult)) {
+        // glitch-canvas returns a Promise
+        const glitchedResult = await new Promise((resolve, reject) => {
+          glitch(glitchParams)
+            .fromBuffer(glitchBuffer)
+            .toBuffer()
+            .then(buffer => resolve(buffer))
+            .catch(error => reject(error));
+        });
+        
+        if (Buffer.isBuffer(glitchedResult) && glitchedResult.length > 0) {
           glitchBuffer = glitchedResult;
         } else {
-          console.warn(`⚠️  Glitch-canvas returned ${typeof glitchedResult}, keeping original buffer`);
+          console.warn(`⚠️  Glitch-canvas returned invalid buffer`);
         }
       } else {
         console.warn(`⚠️  Skipping canvas glitch - invalid buffer`);
